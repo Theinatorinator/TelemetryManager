@@ -13,15 +13,28 @@
 #    limitations under the License.
 
 import argparse
+from distutils.log import Log
+import logging
 from git import Repo
+Logger = logging.getLogger(__name__)
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        prog='TelemetryManager',
-        description='Helps you manage telemetry files for FRC robots.',
-        epilog='Logan Mamanakis, Logan.Mamanakis@gmail.com')
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-d', '--debug',
+        help="Print lots of debugging statements",
+        action="store_const", dest="loglevel", const=logging.DEBUG,
+        default=logging.WARNING,
+    )
+    parser.add_argument(
+        '-v', '--verbose',
+        help="Be verbose",
+        action="store_const", dest="loglevel", const=logging.INFO,
+    )
     args = parser.parse_args()
+    logging.basicConfig(
+        level=args.loglevel, format='%(asctime)s - %(levelname)s: %(message)s')
 
 
 
