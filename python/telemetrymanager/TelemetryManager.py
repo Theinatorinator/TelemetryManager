@@ -12,9 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-import string
-from git import Repo
-from RepoManager import RepoManager
+from .stores.RepoManager import RepoManager
 import argparse
 import logging
 Logger = logging.getLogger(__name__)
