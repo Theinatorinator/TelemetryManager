@@ -11,22 +11,3 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-
-from telemetrymanager.types.LogFrame import LogFrame
-
-
-class LogStore():
-    def __init__(self) -> None:
-        pass
-
-    def commit(self, data: LogFrame) -> bool:
-        return False
-
-    def lock(self) ->bool:
-        return False
-
-    def ready(self) -> bool:
-        return False
-
-    def init(self) -> bool:
-        return False

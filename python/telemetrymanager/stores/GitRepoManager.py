@@ -75,6 +75,9 @@ class GitRepoManager(LogStore):
     def _get_repo(self) -> Repo | None:
         return self._repo
 
+    def _check_meta(self) -> bool:
+        return False
+
     repo = property(fget=_get_repo)
 
     def lock(self, args: Namespace, repo_dir=None) -> bool:
