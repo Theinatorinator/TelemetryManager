@@ -12,6 +12,12 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-from .GitRepoManager import GitRepoManager
-from .LogStore import LogStore
+from typing import TypedDict
+from telemetrymanager.types import AdvantageKitLog, DriverStationLog, LogMetadata, RobotLog, RobotInfo
 
+
+class LogFrame(TypedDict):
+    logMetadata: LogMetadata
+    driverStationLog: DriverStationLog
+    robotLog: RobotLog
+    advantageKitLog: AdvantageKitLog or None

@@ -12,6 +12,11 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-from .GitRepoManager import GitRepoManager
-from .LogStore import LogStore
+from ipaddress import IPv4Address
+from typing import TypedDict
 
+class RobotInfo(TypedDict):
+    robotHostName: str
+    robotIp: IPv4Address
+    sshUsername: str or None
+    sshPassword: str or None

@@ -12,6 +12,18 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-from .GitRepoManager import GitRepoManager
-from .LogStore import LogStore
+from datetime import datetime
+from typing import TypedDict
+from telemetrymanager.types import RobotInfo
+
+
+class LogMetadata(TypedDict):
+    robotInfo: RobotInfo
+    startTimeStamp: datetime
+    endTimeStamp: datetime
+    name: str
+    eventName: str
+    matchNumber: int or None
+    hasAdvantageKit: bool
+    kwargs: dict
 

@@ -12,7 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-from .stores.RepoManager import RepoManager
+from .stores.GitRepoManager import GitRepoManager
 import argparse
 import logging
 Logger = logging.getLogger(__name__)
@@ -21,7 +21,7 @@ Logger = logging.getLogger(__name__)
 class TelemetryManager:
 
     def __init__(self):
-        self.repo_manager = RepoManager()
+        self.repo_manager = GitRepoManager()
 
         self.parse_args()
 
