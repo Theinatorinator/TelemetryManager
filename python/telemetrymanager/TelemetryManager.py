@@ -23,7 +23,10 @@ class TelemetryManager:
     def __init__(self):
         self.repo_manager = GitRepoManager()
 
-        self.parse_args()
+        self._init_arg_parser()
+        self._parse_args()
+
+        self.interactive(None)
 
         logging.basicConfig(
             level=self.args.logLevel, format='%(asctime)s - %(levelname)s: %(message)s')
@@ -32,20 +35,20 @@ class TelemetryManager:
 
         self.args.func(self.args)
 
-    def parse_args(self):
+    def _init_arg_parser(self):
         # Argument parsing
-        parser = argparse.ArgumentParser()
-        subparsers = parser.add_subparsers(required=True)
+        self._parser = argparse.ArgumentParser()
+        self._subparsers = self._parser.add_subparsers(required=True)
 
-        git_dir_parser_parent = argparse.ArgumentParser()
-        git_dir_parser_parent.add_argument(
+        self._git_dir_parser_parent = argparse.ArgumentParser()
+        self._git_dir_parser_parent.add_argument(
             '--dir',
             help="The directory git repo used to store all the logs",
             action='store',
             dest='repo_path',
             required=True)
 
-        parser.add_argument(
+        self._parser.add_argument(
             '--debug',
             help="Print lots of debugging statements",
             action="store_const",
@@ -54,7 +57,7 @@ class TelemetryManager:
             default=logging.WARNING,
         )
 
-        parser.add_argument(
+        self._parser.add_argument(
             '-v',
             '--verbose',
             help="Be verbose",
@@ -63,24 +66,25 @@ class TelemetryManager:
             const=logging.INFO,
         )
 
-        parser_git = subparsers.add_parser('git')
+        self._parser_git = self._subparsers.add_parser('git')
 
-        parser_git_subparsers = parser_git.add_subparsers(required=True)
+        self._parser_git_subparsers = self._parser_git.add_subparsers(
+            required=True)
 
-        parser_git_lock = parser_git_subparsers.add_parser(
-            'lock', parents=[git_dir_parser_parent], add_help=False)
+        self._parser_git_lock = self._parser_git_subparsers.add_parser(
+            'lock', parents=[self._git_dir_parser_parent], add_help=False)
 
-        parser_git_lock.set_defaults(func=self.repo_manager.lock)
+        self._parser_git_lock.set_defaults(func=self.repo_manager.lock)
 
-        parser_git_init = parser_git_subparsers.add_parser(
-            'init', parents=[git_dir_parser_parent], add_help=False)
+        self._parser_git_init = self._parser_git_subparsers.add_parser(
+            'init', parents=[self._git_dir_parser_parent], add_help=False)
 
-        parser_git_init.set_defaults(func=self.repo_manager.init)
+        self._parser_git_init.set_defaults(func=self.repo_manager.init)
 
-        parser_git_clone = parser_git_subparsers.add_parser(
-            'clone', parents=[git_dir_parser_parent], add_help=False)
+        self._parser_git_clone = self._parser_git_subparsers.add_parser(
+            'clone', parents=[self._git_dir_parser_parent], add_help=False)
 
-        parser_git_clone.add_argument(
+        self._parser_git_clone.add_argument(
             '-u',
             '--url',
             help="The URL of remote git repo to clone",
@@ -89,6 +93,21 @@ class TelemetryManager:
             required=True
         )
 
-        parser_git_clone.set_defaults(func=self.repo_manager.clone)
+        self._parser_git_clone.set_defaults(func=self.repo_manager.clone)
 
-        self.args = parser.parse_args()
+        self._parser_cmd = self._subparsers.add_parser('cmd')
+
+    def _parse_args(self) -> None:
+        self.args = self._parser.parse_args()
+
+    def interactive(self, args) -> None:
+        while True:
+            locked = "X" if self.repo_manager.ready() else ""
+            uin = input("TelemetryManager " + "[" + locked +"]"+">")
+            try:
+                self.args = self._parser.parse_args(uin.split())
+            except:
+                print("Error, Invalid Command!")
+                continue
+            print("ok")
+            self.args.func(self.args)
