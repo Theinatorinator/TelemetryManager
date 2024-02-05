@@ -12,6 +12,11 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-class RobotLog(type):
-    def __init__(self) -> None:
-        pass
+import os
+from typing import TypedDict
+
+
+class RobotLog(TypedDict):
+    name: str
+    path: os.DirEntry
+    advantageKitLog: bool

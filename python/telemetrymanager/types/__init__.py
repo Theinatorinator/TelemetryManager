@@ -15,6 +15,5 @@
 from .DriverStationLog import DriverStationLog
 from .LogFrame import LogFrame
 from .RobotLog import RobotLog
-from .AdvantageKitLog import AdvantageKitLog
 from .RobotInfo import RobotInfo
 from .LogMetadata import LogMetadata

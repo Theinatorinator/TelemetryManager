@@ -13,11 +13,11 @@
 #    limitations under the License.
 
 from typing import TypedDict
-from telemetrymanager.types import AdvantageKitLog, DriverStationLog, LogMetadata, RobotLog, RobotInfo
+from telemetrymanager.types import DriverStationLog, LogMetadata, RobotLog
 
 
 class LogFrame(TypedDict):
     logMetadata: LogMetadata
     driverStationLog: DriverStationLog
     robotLog: RobotLog
-    advantageKitLog: AdvantageKitLog or None
+    advantageKitLog: RobotLog or None
